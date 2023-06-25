@@ -1,9 +1,13 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Home } from "../../screens/home/home";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ProductsList } from "../../screens/products-list/products-list";
+import { BottomNavBar } from "../../components/bottom-nav-bar/bottom-nav-bar";
+import { ShoppingCart } from "../../screens/shopping-cart/shopping-cart";
 
 export type InternalNavigatorParamList = {
-	Home: undefined
+	ProductsList: undefined
+	ProductDetail: undefined
+	ShoppingCart: undefined
 }
 
 
@@ -13,12 +17,16 @@ const Tab = createBottomTabNavigator<InternalNavigatorParamList>();
 export const InternalDrawerNavigator = () => {
 	return (
 		<Tab.Navigator
-			initialRouteName={'Home'}
+			initialRouteName={'ProductsList'}
 			backBehavior={'history'}
 			screenOptions={{ headerShown: false }}
-			// tabBar={(props) => <BottomNavBar {...props} />}
+			tabBar={(props) => <BottomNavBar {...props} />}
 		>
-			<Stack.Screen name={"Home"} component={Home} />
+			<Stack.Screen
+				name={"ProductsList"}
+				component={ProductsList}
+			/>
+			<Stack.Screen name={"ShoppingCart"} component={ShoppingCart} />
 		</Tab.Navigator>
 	)
 }

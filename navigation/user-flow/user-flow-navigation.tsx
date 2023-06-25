@@ -1,7 +1,6 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { InternalDrawerNavigator } from "./drawer-navigator";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Sidebar } from "../../components/side-bar/sidebar";
+import { Sidebar } from "../../components/sidebar/sidebar";
 
 
 export type UserFlowNavigatorParamList = {
@@ -9,7 +8,6 @@ export type UserFlowNavigatorParamList = {
 };
 
 const Drawer = createDrawerNavigator<UserFlowNavigatorParamList>();
-
 
 export const UserFlowNavigation = () => {
 	return (
