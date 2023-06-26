@@ -51,7 +51,7 @@ export const ShoppingCart = () => {
 			/>
 			<FlatList
 				data={carts}
-				contentContainerStyle={{ flex: 1 }}
+				contentContainerStyle={styles.root}
 				renderItem={({ item }) => <CartListItem cartItem={item} />}
 				ListFooterComponent={carts.length ? ShoppingCartTotal : null}
 				ListEmptyComponent={EmptyShoppingCart}

@@ -5,7 +5,7 @@ import {
 	Text,
 	useWindowDimensions,
 	View,
-	Pressable
+	Pressable, Alert
 } from "react-native";
 import { FFBottomSheet, FFBottomSheetRef } from "../bottom-sheet/bottom-sheet";
 import { MutableRefObject } from "react";
@@ -27,6 +27,7 @@ export const ProductDetails = ({ onClose, productDetailsRef }: ProductDetailsPro
 	const selectedProduct = useSelector(state => state.products.selectedProduct)
 	const dispatch = useDispatch()
 	const addCart = () => {
+		Alert.alert("Congratulations!", "you have added sneakers to the cart")
 		dispatch(cartSlice.actions.addCartItem({ product: selectedProduct }))
 	}
 
@@ -38,9 +39,9 @@ export const ProductDetails = ({ onClose, productDetailsRef }: ProductDetailsPro
 		<FFBottomSheet
 			bottomSheetModalRef={productDetailsRef}
 			onDismiss={close}
-			snapPoints={['100%']}
+			snapPoints={['95%']}
 		>
-			{selectedProduct ? <BottomSheetScrollView style={{backgroundColor: "white"}}>
+			{selectedProduct ? <BottomSheetScrollView>
 				<FlatList
 					data={selectedProduct.images}
 					horizontal

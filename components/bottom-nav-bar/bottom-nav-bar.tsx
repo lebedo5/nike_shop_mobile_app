@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { fontSize, isSmallDevice, size } from "../../utils/size";
 import { Shadow } from 'react-native-shadow-2';
 import { Feather } from "@expo/vector-icons";
+import { palette } from "../../theme/pallete";
 
 
 export interface FFTabProps {
@@ -26,6 +27,7 @@ const tabs: Array<FFTabProps> = [
   }
 ];
 
+const { width } = Dimensions.get("window")
 const TAB_WIDTH = isSmallDevice ? size(65) : size(55);
 
 export const BottomNavBar = ({ state }) => {
@@ -36,26 +38,28 @@ export const BottomNavBar = ({ state }) => {
   return (
     <Shadow>
       <View style={styles.inner}>
-        {tabs.map((tab, index) => {
-          const isActive = useMemo(() => {
-            const activeScreen = state.routes[state.index].name;
-            return activeScreen === tab.routeName
-          }, [state]);
+        <View style={styles.container}>
+          {tabs.map((tab, index) => {
+            const isActive = useMemo(() => {
+              const activeScreen = state.routes[state.index].name;
+              return activeScreen === tab.routeName
+            }, [state]);
 
-          const goToScreen = () => {
-            navigate.navigate(tab.routeName);
-          };
+            const goToScreen = () => {
+              navigate.navigate(tab.routeName);
+            };
 
-          return (
-            <Pressable style={styles.tab} onPress={goToScreen}>
-              {isActive ? <View style={styles.designElement} /> : null}
-              <View style={styles.iconBlock}>
-                <Feather name={tab.icon} size={24} color={isActive ? "blue" : 'black'} />
-              </View>
-              <Text style={[styles.title, isActive ? { color: "blue" } : { color: 'black' }]}>{tab.title}</Text>
-            </Pressable>
-          )
-        })}
+            return (
+              <Pressable style={styles.tab} onPress={goToScreen}>
+                {isActive ? <View style={styles.designElement} /> : null}
+                <View style={styles.iconBlock}>
+                  <Feather name={tab.icon} size={24} color={isActive ? palette.purple : palette.iconColor} />
+                </View>
+                <Text style={[styles.title, isActive ? { color: palette.purple } : { color: palette.iconColor }]}>{tab.title}</Text>
+              </Pressable>
+            )
+          })}
+        </View>
       </View>
     </Shadow>
   );
@@ -84,11 +88,12 @@ const fromStyle = (theme) =>
     title: {
       textAlign: 'center',
       fontSize: fontSize(12),
+      fontWeight: "600"
     },
     designElement: {
       width: '100%',
       height: size(3),
-      backgroundColor: theme.actionTabBottomNavBar,
+      backgroundColor: palette.purple,
       position: 'absolute',
       top: 0,
       left: 0,
@@ -100,4 +105,8 @@ const fromStyle = (theme) =>
       alignItems: 'center',
       justifyContent: 'center',
     },
+    container: {
+      width: width - size(32),
+      flexDirection: 'row',
+    }
   });

@@ -10,6 +10,7 @@ import { size } from "../../utils/size";
 import { useSelector, useDispatch } from "react-redux";
 import { productSlice } from "../../store/productsSlice";
 import { selectNumberOfItem } from '../../store/cartSlice'
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width } =  Dimensions.get("window")
 export const ProductsList = () => {
@@ -17,6 +18,8 @@ export const ProductsList = () => {
 	const products = useSelector(state => state.products.products)
 	const numberOfItems = useSelector(selectNumberOfItem)
 	const dispatch = useDispatch()
+
+	const { bottom } = useSafeAreaInsets()
 	const openMenu = () => {
 		navigation.dispatch(DrawerActions.openDrawer())
 	}
@@ -52,7 +55,7 @@ export const ProductsList = () => {
 			<FlatList
 				data={products}
 				numColumns={2}
-				contentContainerStyle={styles.listComponent}
+				contentContainerStyle={[styles.listComponent, { paddingBottom: bottom }]}
 				showsVerticalScrollIndicator={false}
 				renderItem={({ item }) => {
 					return (
@@ -61,9 +64,6 @@ export const ProductsList = () => {
 								source={{ uri: item.image }}
 								style={styles.imageStyle}
 							/>
-							<View style={styles.textBlock}>
-								<Text style={styles.titleProduct}>{item.name}</Text>
-							</View>
 						</Pressable>
 					)
 				}}
@@ -83,6 +83,8 @@ const styles = StyleSheet.create({
 	imageStyle: {
 		width: "100%",
 		aspectRatio: 1,
+		borderRadius: size(10),
+		overflow: 'hidden'
 	},
 	itemContainer: {
 		flexDirection: "column",

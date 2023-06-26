@@ -3,13 +3,12 @@ import { useMemo } from 'react';
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from 'react-native-reanimated';
 import { BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 import { useTheme } from '@react-navigation/native';
+import { palette } from "../../theme/pallete";
 
 /**
  * Describe your component here
  */
 export const BottomSheetBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
-  const theme: any = useTheme();
-
   const containerAnimatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(animatedIndex.value, [0, 1], [0.3, 1], Extrapolate.CLAMP),
   }));
@@ -18,7 +17,7 @@ export const BottomSheetBackdrop = ({ animatedIndex, style }: BottomSheetBackdro
     () => [
       style,
       {
-        backgroundColor: theme.uiGrey,
+        backgroundColor: palette.textColor,
       },
       containerAnimatedStyle,
     ],

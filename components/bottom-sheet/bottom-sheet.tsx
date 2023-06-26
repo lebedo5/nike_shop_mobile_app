@@ -13,7 +13,6 @@ import {
   useState,
 } from 'react';
 import { BackHandler, Platform, ViewStyle } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import {
   BottomSheetHandleProps,
   BottomSheetModal,
@@ -24,6 +23,7 @@ import { SharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BottomSheetBackdrop } from "../bottom-sheet-backdrop/bottom-sheet-backdrop";
 import { size } from "../../utils/size";
+import { palette } from '../../theme/pallete';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -61,7 +61,6 @@ export const FFBottomSheet = forwardRef(function FFBottomSheet(props: FFBottomSh
     detached,
     fitToContentHeight = false,
   } = props;
-  const theme: any = useTheme();
   const { top, bottom } = useSafeAreaInsets();
   const [activeSnapIndex, setActiveSnapIndex] = useState(0);
   const bottomSheetRef = useRef<BottomSheetModal>(null);
@@ -137,7 +136,7 @@ export const FFBottomSheet = forwardRef(function FFBottomSheet(props: FFBottomSh
       onChange={onSnapChangeHandler}
       onDismiss={onDismiss}
       footerComponent={footer}
-      backgroundStyle={bottomSheetViewStyle || { backgroundColor: theme.backgroundColor }}
+      backgroundStyle={bottomSheetViewStyle || { backgroundColor: palette.white }}
       topInset={top}
       containerStyle={{ paddingBottom: bottom }}
       detached={detached}
