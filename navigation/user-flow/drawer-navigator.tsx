@@ -3,11 +3,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ProductsList } from "../../screens/products-list/products-list";
 import { BottomNavBar } from "../../components/bottom-nav-bar/bottom-nav-bar";
 import { ShoppingCart } from "../../screens/shopping-cart/shopping-cart";
+import { TrackOrder } from "../../screens/track-order/track-order";
 
 export type InternalNavigatorParamList = {
 	ProductsList: undefined
 	ProductDetail: undefined
 	ShoppingCart: undefined
+	TrackOrder: undefined
 }
 
 
@@ -27,6 +29,7 @@ export const InternalDrawerNavigator = () => {
 				component={ProductsList}
 			/>
 			<Stack.Screen name={"ShoppingCart"} component={ShoppingCart} />
+			<Stack.Screen name={"TrackOrder"} component={TrackOrder} />
 		</Tab.Navigator>
 	)
 }

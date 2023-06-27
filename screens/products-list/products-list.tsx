@@ -1,38 +1,40 @@
-import { StyleSheet, Text, Image, Dimensions, FlatList, Pressable, View } from "react-native"
+import { StyleSheet, Text, Image, Dimensions, FlatList, Pressable, View, ActivityIndicator } from "react-native"
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { Screen } from "../../components/screen/screen";
 import { Header } from "../../components/header/header";
 import { Feather } from '@expo/vector-icons';
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FFBottomSheetRef } from "../../components/bottom-sheet/bottom-sheet";
 import { ProductDetails } from "../../components/product-detail/product-detail";
 import { size } from "../../utils/size";
-import { useSelector, useDispatch } from "react-redux";
-import { productSlice } from "../../store/productsSlice";
+import { useSelector } from "react-redux";
 import { selectNumberOfItem } from '../../store/cartSlice'
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useGetProductsQuery } from "../../store/apiSlice";
 
 const { width } =  Dimensions.get("window")
 export const ProductsList = () => {
 	const navigation = useNavigation()
-	const products = useSelector(state => state.products.products)
 	const numberOfItems = useSelector(selectNumberOfItem)
-	const dispatch = useDispatch()
+	const productDetailsRef = useRef<FFBottomSheetRef>(null);
+	const [productId, setProductId] = useState<string | null>(null);
 
 	const { bottom } = useSafeAreaInsets()
+
+	const { data } = useGetProductsQuery();
+	const product = data;
 	const openMenu = () => {
 		navigation.dispatch(DrawerActions.openDrawer())
 	}
 
-	const productDetailsRef = useRef<FFBottomSheetRef>(null);
-
 	const closeDetails = () => {
 		productDetailsRef.current?.hide();
+		setProductId(null)
 	}
 
 	const openProductDetails = (item) => {
 		//update selected product
-		dispatch(productSlice.actions.setSelectedProduct(item.id))
+		setProductId(item._id);
 		productDetailsRef?.current?.show();
 	}
 
@@ -53,7 +55,7 @@ export const ProductsList = () => {
 				}
 			/>
 			<FlatList
-				data={products}
+				data={product?.data}
 				numColumns={2}
 				contentContainerStyle={[styles.listComponent, { paddingBottom: bottom }]}
 				showsVerticalScrollIndicator={false}
@@ -68,7 +70,7 @@ export const ProductsList = () => {
 					)
 				}}
 			/>
-			<ProductDetails productDetailsRef={productDetailsRef} onClose={closeDetails}/>
+			<ProductDetails productId={productId} productDetailsRef={productDetailsRef} onClose={closeDetails}/>
 		</Screen>
 	)
 }

@@ -5,7 +5,7 @@ import {
 	Text,
 	useWindowDimensions,
 	View,
-	Pressable, Alert
+	Pressable, Alert, ActivityIndicator
 } from "react-native";
 import { FFBottomSheet, FFBottomSheetRef } from "../bottom-sheet/bottom-sheet";
 import { MutableRefObject } from "react";
@@ -13,26 +13,28 @@ import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { cartSlice } from "../../store/cartSlice";
+import { useGetProductQuery } from "../../store/apiSlice";
 
 export interface ProductDetailsProps {
 	onClose: any;
 	productDetailsRef: MutableRefObject<FFBottomSheetRef>;
+	productId: string | null
 }
 
-export const ProductDetails = ({ onClose, productDetailsRef }: ProductDetailsProps) => {
+export const ProductDetails = ({ onClose, productDetailsRef, productId }: ProductDetailsProps) => {
 	const { width } = useWindowDimensions()
 
 	const styles = fromStyle(width)
 
-	const selectedProduct = useSelector(state => state.products.selectedProduct)
+	const { data } = useGetProductQuery(productId);
 	const dispatch = useDispatch()
 	const addCart = () => {
 		Alert.alert("Congratulations!", "you have added sneakers to the cart")
-		dispatch(cartSlice.actions.addCartItem({ product: selectedProduct }))
+		dispatch(cartSlice.actions.addCartItem({ product: data?.data }))
 	}
 
 	const close = () => {
-		onClose();
+		// onClose();
 	};
 
 	return (
@@ -41,9 +43,9 @@ export const ProductDetails = ({ onClose, productDetailsRef }: ProductDetailsPro
 			onDismiss={close}
 			snapPoints={['95%']}
 		>
-			{selectedProduct ? <BottomSheetScrollView>
+			{data?.data ? <BottomSheetScrollView>
 				<FlatList
-					data={selectedProduct.images}
+					data={data?.data?.images}
 					horizontal
 					renderItem={({item}) => (
 						<Image
@@ -56,15 +58,15 @@ export const ProductDetails = ({ onClose, productDetailsRef }: ProductDetailsPro
 				/>
 
 				<View style={styles.descriptionBlock}>
-					<Text style={styles.title}>{selectedProduct.name}</Text>
-					<Text style={styles.price}>${selectedProduct.price}</Text>
-					<Text style={styles.description}>{selectedProduct.description}</Text>
+					<Text style={styles.title}>{data?.data?.name}</Text>
+					<Text style={styles.price}>${data?.data?.price}</Text>
+					<Text style={styles.description}>{data?.data?.description}</Text>
 				</View>
 
 				<Pressable onPress={addCart} style={styles.button}>
 					<Text style={styles.buttonText}>Add to cart</Text>
 				</Pressable>
-			</BottomSheetScrollView> : null}
+			</BottomSheetScrollView> : <ActivityIndicator />}
 		</FFBottomSheet>
 	);
 };

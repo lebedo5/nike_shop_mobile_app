@@ -24,15 +24,18 @@ const tabs: Array<FFTabProps> = [
     icon: "shopping-cart",
     title: 'Shopping Cart',
     routeName: 'ShoppingCart',
-  }
+  },
+  {
+    icon: 'shopping-cart',
+    title: 'Track Order',
+    routeName: 'TrackOrder',
+  },
 ];
 
 const { width } = Dimensions.get("window")
 const TAB_WIDTH = isSmallDevice ? size(65) : size(55);
 
 export const BottomNavBar = ({ state }) => {
-  const theme =  useTheme();
-  const styles = fromStyle(theme);
   const navigate = useNavigation();
 
   return (
@@ -50,7 +53,7 @@ export const BottomNavBar = ({ state }) => {
             };
 
             return (
-              <Pressable style={styles.tab} onPress={goToScreen}>
+              <Pressable key={index.toString()} style={styles.tab} onPress={goToScreen}>
                 {isActive ? <View style={styles.designElement} /> : null}
                 <View style={styles.iconBlock}>
                   <Feather name={tab.icon} size={24} color={isActive ? palette.purple : palette.iconColor} />
@@ -65,8 +68,7 @@ export const BottomNavBar = ({ state }) => {
   );
 };
 
-const fromStyle = (theme) =>
-  StyleSheet.create({
+const styles = StyleSheet.create({
     inner: {
       flexDirection: 'row',
       paddingHorizontal: size(8),

@@ -3,6 +3,7 @@ import { Pressable, SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import { DrawerActions, useNavigation, useTheme } from '@react-navigation/native';
 import { Feather } from "@expo/vector-icons";
 import { fontSize, size } from "../../utils/size";
+import { TrackOrder } from "../../screens/track-order/track-order";
 
 interface LinkItemProps {
   title: string;
@@ -20,6 +21,11 @@ const SIDEBAR_LINKS: Array<LinkItemProps> = [
     title: 'Shopping Cart',
     icon: 'shopping-cart',
     screen: 'ShoppingCart',
+  },
+  {
+    title: 'Track Order',
+    icon: 'shopping-cart',
+    screen: 'TrackOrder',
   },
 ];
 

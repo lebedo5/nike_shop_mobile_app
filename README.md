@@ -2,6 +2,9 @@
 
 ### A mobile application created using  `Expo`, `React Native`, `TypeScript`
 
+### For created BackEnd I used `Express`, `Mongodb` you can check BE in different branch `backend-nikeApp`
+#### for implement BE to FE I used the hooks that were created for us by the library `@reduxjs/toolkit/query/react`
+
 ### Store: `redux` and `reduxjs/toolkit`
 
 ### The application implements navigation using 
@@ -30,6 +33,16 @@ Implemented logic:
 If total price > 200 delivery - 0$ if not - 15$.
 
 ![shoppingCart.png](shoppingCart.png)
+
+
+### Track Order
+After we create order user can check this order to "Track Order screen",
+user can write reference in input and BE return this order.
+
+BE return reference after success order
+
+![trackOrder1.png](trackOrder1.png)
+![trackOrder2.png](trackOrder2.png)
 
 ### Functions which I used in app can be not understandable.
 
